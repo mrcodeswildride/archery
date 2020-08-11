@@ -1,0 +1,55 @@
+body {
+  background-color: beige;
+  user-select: none;
+  overflow: hidden;
+}
+
+h1,
+#bow,
+#target,
+#statusBar {
+  pointer-events: none;
+}
+
+#playingArea,
+#statusBar {
+  width: 1000px;
+}
+
+#playingArea {
+  height: 430px;
+  background-image: url("field.png");
+  position: relative;
+}
+
+#playingArea > img {
+  position: absolute;
+}
+
+#bow {
+  left: 30px;
+  top: 353px;
+  transform: rotate(-0.374681rad);
+}
+
+.arrow {
+  z-index: 1;
+}
+
+#target {
+  left: 920px;
+  top: 0;
+}
+
+#statusBar {
+  font-size: 24px;
+  overflow: auto;
+}
+
+#instructions {
+  float: left;
+}
+
+#hitParagraph {
+  float: right;
+}

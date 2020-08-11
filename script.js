@@ -1,111 +1,107 @@
-var playingArea = document.getElementById("playingArea");
-var bow = document.getElementById("bow");
-var target = document.getElementById("target");
-var hitDisplay = document.getElementById("hitValue");
-var shotDisplay = document.getElementById("shotValue");
+let playingArea = document.getElementById(`playingArea`)
+let bow = document.getElementById(`bow`)
+let target = document.getElementById(`target`)
+let hitVaue = document.getElementById(`hitValue`)
+let shotValue = document.getElementById(`shotValue`)
 
-var gravity = 0.3;
-var arrowWidth = 50;
-var arrowHeight = 11;
-var targetsHit = 0;
-var arrowsShot = 0;
+let gravity = 0.3
+let arrowWidth = 50
+let arrowHeight = 11
+let hit = 0
+let shot = 0
 
-document.addEventListener("mousemove", tilt);
-document.addEventListener("click", launch);
+document.addEventListener(`mousemove`, tilt)
+document.addEventListener(`click`, launch)
 
 function tilt(event) {
-    var bowAngle = getBowAngle(event.offsetX, event.offsetY);
-    bow.style.transform = "rotate(" + bowAngle + "rad)";
+  let bowAngle = getBowAngle(event.offsetX, event.offsetY)
+  bow.style.transform = `rotate(${bowAngle}rad)`
 }
 
 function launch(event) {
-    var bowAngle = getBowAngle(event.offsetX, event.offsetY);
-    bow.style.transform = "rotate(" + bowAngle + "rad)";
+  let bowAngle = getBowAngle(event.offsetX, event.offsetY)
+  bow.style.transform = `rotate(${bowAngle}rad)`
 
-    var bowX = bow.offsetLeft + bow.width / 2;
-    var bowY = bow.offsetTop + bow.height / 2;
-    var hSpeed = Math.cos(bowAngle) * 20;
-    var vSpeed = Math.sin(bowAngle) * 20;
+  let bowX = bow.offsetLeft + (bow.width / 2)
+  let bowY = bow.offsetTop + (bow.height / 2)
 
-    var arrow = document.createElement("img");
-    arrow.classList.add("arrow");
-    arrow.src = "arrow.png";
-    arrow.style.left = (bowX - arrowWidth / 2) + "px";
-    arrow.style.top = (bowY - arrowHeight / 2) + "px";
-    arrow.style.transform = "rotate(" + bowAngle + "rad)";
-    arrow.setAttribute("h-speed", hSpeed);
-    arrow.setAttribute("v-speed", vSpeed);
+  let arrow = document.createElement(`img`)
+  arrow.src = `arrow.png`
+  arrow.classList.add(`arrow`)
+  arrow.style.left = `${bowX - arrowWidth / 2}px`
+  arrow.style.top = `${bowY - arrowHeight / 2}px`
+  arrow.style.transform = `rotate(${bowAngle}rad)`
+  arrow.hSpeed = Math.cos(bowAngle) * 20
+  arrow.vSpeed = Math.sin(bowAngle) * 20
+  playingArea.appendChild(arrow)
 
-    playingArea.appendChild(arrow);
-    var intervalId = setInterval(move, 50, arrow);
-    arrow.setAttribute("interval-id", intervalId);
+  arrow.intervalId = setInterval(move, 50, arrow)
 }
 
 function move(arrow) {
-    var hSpeed = parseFloat(arrow.getAttribute("h-speed"));
-    var vSpeed = parseFloat(arrow.getAttribute("v-speed"));
-    var intervalId = parseInt(arrow.getAttribute("interval-id"), 10);
+  arrow.vSpeed += gravity
 
-    vSpeed += gravity;
-    arrow.setAttribute("v-speed", vSpeed);
+  let angle = Math.atan2(arrow.vSpeed, arrow.hSpeed)
 
-    var angle = Math.atan2(vSpeed, hSpeed);
+  arrow.style.left = `${arrow.offsetLeft + arrow.hSpeed}px`
+  arrow.style.top = `${arrow.offsetTop + arrow.vSpeed}px`
+  arrow.style.transform = `rotate(${angle}rad)`
 
-    arrow.style.left = (arrow.offsetLeft + hSpeed) + "px";
-    arrow.style.top = (arrow.offsetTop + vSpeed) + "px";
-    arrow.style.transform = "rotate(" + angle + "rad)";
+  if (touching(arrow, target)) {
+    targetHit(arrow)
+  }
+  else if (arrow.offsetLeft < -arrowWidth || arrow.offsetLeft > playingArea.offsetWidth || arrow.offsetTop > playingArea.offsetHeight) {
+    clearInterval(arrow.intervalId)
+    arrow.remove()
 
-    if (touching(arrow, target)) {
-        clearInterval(intervalId);
-        playingArea.removeChild(arrow);
-        moveTarget();
+    shot++
+    shotValue.innerHTML = shot
+  }
+}
 
-        targetsHit++;
-        hitDisplay.innerHTML = targetsHit;
+function targetHit(arrow) {
+  clearInterval(arrow.intervalId)
+  arrow.remove()
+  moveTarget()
 
-        arrowsShot++;
-        shotDisplay.innerHTML = arrowsShot;
-    }
-    else if (arrow.offsetLeft < -arrowWidth || arrow.offsetLeft > playingArea.offsetWidth || arrow.offsetTop > playingArea.offsetHeight) {
-        clearInterval(intervalId);
-        playingArea.removeChild(arrow);
+  hit++
+  hitVaue.innerHTML = hit
 
-        arrowsShot++;
-        shotDisplay.innerHTML = arrowsShot;
-    }
+  shot++
+  shotValue.innerHTML = shot
 }
 
 function moveTarget() {
-    var randomX = Math.random() * 420 + 500;
-    var randomY = Math.random() * 347;
+  let randomX = Math.random() * 420 + 500
+  let randomY = Math.random() * 347
 
-    target.style.left = randomX + "px";
-    target.style.top = randomY + "px";
+  target.style.left = `${randomX}px`
+  target.style.top = `${randomY}px`
 }
 
 function getBowAngle(mouseX, mouseY) {
-    var bowX = bow.offsetLeft + bow.width / 2;
-    var bowY = bow.offsetTop + bow.height / 2;
+  let bowX = bow.offsetLeft + (bow.width / 2)
+  let bowY = bow.offsetTop + (bow.height / 2)
 
-    var x = mouseX - bowX;
-    var y = mouseY - bowY;
+  let x = mouseX - bowX
+  let y = mouseY - bowY
 
-    return Math.atan2(y, x);
+  return Math.atan2(y, x)
 }
 
 function touching(object1, object2) {
-    var object1LeftSide = object1.offsetLeft;
-    var object1RightSide = object1.offsetLeft + object1.offsetWidth;
-    var object1TopSide = object1.offsetTop;
-    var object1BottomSide = object1.offsetTop + object1.offsetHeight;
+  let object1LeftSide = object1.offsetLeft
+  let object1RightSide = object1.offsetLeft + object1.offsetWidth
+  let object1TopSide = object1.offsetTop
+  let object1BottomSide = object1.offsetTop + object1.offsetHeight
 
-    var object2LeftSide = object2.offsetLeft;
-    var object2RightSide = object2.offsetLeft + object2.offsetWidth;
-    var object2TopSide = object2.offsetTop;
-    var object2BottomSide = object2.offsetTop + object2.offsetHeight;
+  let object2LeftSide = object2.offsetLeft
+  let object2RightSide = object2.offsetLeft + object2.offsetWidth
+  let object2TopSide = object2.offsetTop
+  let object2BottomSide = object2.offsetTop + object2.offsetHeight
 
-    var objectsTouchingHorizontally = object1RightSide >= object2LeftSide && object1LeftSide <= object2RightSide;
-    var objectsTouchingVertically = object1BottomSide >= object2TopSide && object1TopSide <= object2BottomSide;
+  let objectsTouchingHorizontally = object1RightSide >= object2LeftSide && object1LeftSide <= object2RightSide
+  let objectsTouchingVertically = object1BottomSide >= object2TopSide && object1TopSide <= object2BottomSide
 
-    return objectsTouchingHorizontally && objectsTouchingVertically;
+  return objectsTouchingHorizontally && objectsTouchingVertically
 }
