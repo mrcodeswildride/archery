@@ -90,18 +90,18 @@ function getBowAngle(mouseX, mouseY) {
 }
 
 function touching(object1, object2) {
-  let object1LeftSide = object1.offsetLeft
-  let object1RightSide = object1.offsetLeft + object1.offsetWidth
-  let object1TopSide = object1.offsetTop
-  let object1BottomSide = object1.offsetTop + object1.offsetHeight
+  let object1Left = object1.offsetLeft
+  let object1Right = object1.offsetLeft + object1.offsetWidth
+  let object1Top = object1.offsetTop
+  let object1Bottom = object1.offsetTop + object1.offsetHeight
 
-  let object2LeftSide = object2.offsetLeft
-  let object2RightSide = object2.offsetLeft + object2.offsetWidth
-  let object2TopSide = object2.offsetTop
-  let object2BottomSide = object2.offsetTop + object2.offsetHeight
+  let object2Left = object2.offsetLeft
+  let object2Right = object2.offsetLeft + object2.offsetWidth
+  let object2Top = object2.offsetTop
+  let object2Bottom = object2.offsetTop + object2.offsetHeight
 
-  let objectsTouchingHorizontally = object1RightSide >= object2LeftSide && object1LeftSide <= object2RightSide
-  let objectsTouchingVertically = object1BottomSide >= object2TopSide && object1TopSide <= object2BottomSide
+  let xLinesUp = object1Left <= object2Right && object1Right >= object2Left
+  let yLinesUp = object1Top <= object2Bottom && object1Bottom >= object2Top
 
-  return objectsTouchingHorizontally && objectsTouchingVertically
+  return xLinesUp && yLinesUp
 }
