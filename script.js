@@ -22,8 +22,8 @@ function launch(event) {
   let bowAngle = getBowAngle(event.offsetX, event.offsetY)
   bow.style.transform = `rotate(${bowAngle}rad)`
 
-  let bowX = bow.offsetLeft + (bow.width / 2)
-  let bowY = bow.offsetTop + (bow.height / 2)
+  let bowX = bow.offsetLeft + bow.width / 2
+  let bowY = bow.offsetTop + bow.height / 2
 
   let arrow = document.createElement(`img`)
   arrow.src = `arrow.png`
@@ -49,8 +49,11 @@ function move(arrow) {
 
   if (touching(arrow, target)) {
     targetHit(arrow)
-  }
-  else if (arrow.offsetLeft < -arrowWidth || arrow.offsetLeft > playingArea.offsetWidth || arrow.offsetTop > playingArea.offsetHeight) {
+  } else if (
+    arrow.offsetLeft < -arrowWidth ||
+    arrow.offsetLeft > playingArea.offsetWidth ||
+    arrow.offsetTop > playingArea.offsetHeight
+  ) {
     clearInterval(arrow.intervalId)
     arrow.remove()
 
@@ -80,8 +83,8 @@ function moveTarget() {
 }
 
 function getBowAngle(mouseX, mouseY) {
-  let bowX = bow.offsetLeft + (bow.width / 2)
-  let bowY = bow.offsetTop + (bow.height / 2)
+  let bowX = bow.offsetLeft + bow.width / 2
+  let bowY = bow.offsetTop + bow.height / 2
 
   let x = mouseX - bowX
   let y = mouseY - bowY

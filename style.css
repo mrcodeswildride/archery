@@ -1,7 +1,8 @@
 body {
   background-color: beige;
-  user-select: none;
   overflow: hidden;
+  user-select: none;
+  touch-action: manipulation;
 }
 
 h1,

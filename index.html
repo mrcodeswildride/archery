@@ -1,33 +1,27 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Archery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.35" />
+    <link href="style.css" rel="stylesheet" />
+    <link href="arrow.png" rel="prefetch" />
+    <script src="script.js" defer></script>
+  </head>
 
-<head>
-	<title>Archery</title>
-	<meta name="viewport" content="width=device-width, initial-scale=0.25">
-	<link href="style.css" rel="stylesheet">
-	<link href="arrow.png" rel="prefetch">
-	<script src="script.js" defer>
+  <body>
+    <h1>Archery</h1>
 
-	</script>
-</head>
+    <div id="playingArea">
+      <img src="bow.png" id="bow" />
+      <img src="target.png" id="target" />
+    </div>
 
-<body>
-	<h1>Archery</h1>
+    <div id="statusBar">
+      <p id="instructions">Click to shoot an arrow.</p>
 
-  <div id="playingArea">
-    <img src="bow.png" id="bow">
-    <img src="target.png" id="target">
-  </div>
-
-  <div id="statusBar">
-    <p id="instructions">
-      Click to shoot an arrow.
-    </p>
-
-    <p id="hitParagraph">
-      Targets Hit: <span id="hitValue">0</span>/<span id="shotValue">0</span>
-    </p>
-  </div>
-</body>
-
+      <p id="hitParagraph">
+        Targets Hit: <span id="hitValue">0</span>/<span id="shotValue">0</span>
+      </p>
+    </div>
+  </body>
 </html>
